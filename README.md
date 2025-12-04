@@ -2,6 +2,8 @@
 
 A full-stack web application for managing ship GHG emissions compliance under the FuelEU Maritime Regulation (EU 2023/1805). Built with React, TypeScript, Node.js, and PostgreSQL following hexagonal architecture principles.
 
+[▶️ Watch Video](https://drive.google.com/file/d/1LqCjQCI8IvktPenJt4TBiLRw7AXVgKDm/view?usp=drive_link)
+
 ## 🌊 Overview
 
 The FuelEU Maritime Regulation requires ships operating in the EU to reduce their greenhouse gas (GHG) intensity. This platform helps shipping companies:
@@ -245,15 +247,6 @@ Each ship can only bank once per year. This error indicates banking was already 
 
 ### Error: "Cannot bank: No compliance surplus available"
 The selected vessel has a deficit (CB < 0), not a surplus. Only ships with positive CB can bank.
-
-## 📚 References
-
-- [EU Regulation 2023/1805 (FuelEU Maritime)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1805)
-- [DNV FuelEU Maritime Overview](https://www.dnv.com/maritime/fueleu-maritime/)
-
-## 📝 License
-
-This project is for educational and assessment purposes.
 
 ---
 
