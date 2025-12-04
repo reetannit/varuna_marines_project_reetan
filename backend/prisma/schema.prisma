@@ -1,0 +1,81 @@
+// This is your Prisma schema file
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Route table - stores shipping route data
+model Route {
+  id              String   @id @default(uuid())
+  routeId         String   @unique @map("route_id")
+  vesselType      String   @map("vessel_type")
+  fuelType        String   @map("fuel_type")
+  year            Int
+  ghgIntensity    Float    @map("ghg_intensity")
+  fuelConsumption Float    @map("fuel_consumption")
+  distance        Float
+  totalEmissions  Float    @map("total_emissions")
+  isBaseline      Boolean  @default(false) @map("is_baseline")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("routes")
+}
+
+// Ship Compliance table - stores computed compliance balance records
+model ShipCompliance {
+  id                String   @id @default(uuid())
+  shipId            String   @map("ship_id")
+  year              Int
+  actualGhgIntensity Float   @map("actual_ghg_intensity")
+  energyUsed        Float    @map("energy_used")
+  complianceBalance Float    @map("cb_gco2eq")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@unique([shipId, year])
+  @@map("ship_compliance")
+}
+
+// Bank Entries table - stores banked surplus for Article 20
+model BankEntry {
+  id            String   @id @default(uuid())
+  shipId        String   @map("ship_id")
+  year          Int
+  amountGco2eq  Float    @map("amount_gco2eq")
+  originalAmount Float   @map("original_amount")
+  appliedAmount Float    @default(0) @map("applied_amount")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("bank_entries")
+}
+
+// Pools table - pool registry for Article 21
+model Pool {
+  id        String       @id @default(uuid())
+  year      Int
+  createdAt DateTime     @default(now()) @map("created_at")
+  members   PoolMember[]
+
+  @@map("pools")
+}
+
+// Pool Members table - ships participating in a pool
+model PoolMember {
+  id       String @id @default(uuid())
+  poolId   String @map("pool_id")
+  shipId   String @map("ship_id")
+  cbBefore Float  @map("cb_before")
+  cbAfter  Float  @map("cb_after")
+  pool     Pool   @relation(fields: [poolId], references: [id], onDelete: Cascade)
+
+  @@unique([poolId, shipId])
+  @@map("pool_members")
+}
