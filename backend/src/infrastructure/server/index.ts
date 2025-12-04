@@ -11,7 +11,7 @@ import {
   PrismaShipComplianceRepository,
   PrismaBankEntryRepository,
   PrismaPoolRepository
-} from '../../adapters/outbound/postgres/index';
+} from '../../adapters/outbound/postgres';
 
 // Use Cases
 import { GetRoutesUseCase } from '../../core/application/use-cases/GetRoutesUseCase';
@@ -30,7 +30,7 @@ import {
   ComplianceController, 
   BankingController, 
   PoolsController 
-} from '../../adapters/inbound/http/controllers/index';
+} from '../../adapters/inbound/http/controllers';
 
 // Routes and Middleware
 import { createRoutes } from '../../adapters/inbound/http/routes';
